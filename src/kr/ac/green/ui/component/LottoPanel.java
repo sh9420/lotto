@@ -29,6 +29,7 @@ public class LottoPanel extends JPanel{
 	private JButton btnMenual;
 	private JButton btnAuto;
 	private JButton btnCancel;
+	
 	private Lotto lotto;
 	private int index;
 	
@@ -71,7 +72,7 @@ public class LottoPanel extends JPanel{
 		ActionListener aListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new ManualButton();
+				new ManualButton(index);
 			}
 		};
 		btnMenual.addActionListener(aListener);

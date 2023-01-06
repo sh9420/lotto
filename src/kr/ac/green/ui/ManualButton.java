@@ -9,6 +9,7 @@ import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
@@ -24,7 +25,10 @@ public class ManualButton extends JDialog {
     private JButton btnDelete;
     private JButton btnOK;
 
-    public ManualButton() {
+    public ManualButton(int index) {
+    	
+    	super(new JFrame(), "¼öµ¿", true);
+    	
         init();
         setDisplay();
         setListener();
