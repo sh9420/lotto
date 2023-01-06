@@ -1,4 +1,4 @@
-package kr.ac.green;
+package kr.ac.green.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
@@ -16,20 +16,15 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-public class Button extends JDialog {
+public class ManualButton extends JDialog {
+	
     private ArrayList<Integer> selectNum;
     private JToggleButton[] buttons;
     private JLabel lbl1;
     private JButton btnDelete;
     private JButton btnOK;
-    
-    private Buy owner;
 
-
-
-    public Button(Buy owner) {
-		super(owner,"Button",true);
-		this.owner = owner;
+    public ManualButton() {
         init();
         setDisplay();
         setListener();

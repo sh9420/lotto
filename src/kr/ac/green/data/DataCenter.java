@@ -1,5 +1,9 @@
 package kr.ac.green.data;
 
+import java.util.ArrayList;
+
+import kr.ac.green.model.Lotto;
+
 /**
  * @author 백승훈
  * 싱글턴 패턴을 활용하여, 하나의 인스턴스 보장
@@ -11,11 +15,11 @@ public class DataCenter {
 	
 	private static DataCenter instance;
 	
-	//구매 수량
-	private int buyNum;
-    
+	//로또 리스트 생성
+	private ArrayList<Lotto> lottoList;
+	
 	private DataCenter() {
-		this.buyNum = 0;
+		lottoList = new ArrayList<Lotto>();
 	}
 	
 	/**
@@ -30,13 +34,47 @@ public class DataCenter {
         return instance;
     }
 	
-	public int getBuyNum() {
-		return buyNum;
+
+	/**
+	 * 로또 구매량 입력 시, 갯수만큼 ArrayList 추가
+	 * @param buyLotto
+	 */
+	public void setBuyLotto(int buyLotto) {
+		
+		for(int i=0;i<buyLotto;i++) {
+			this.lottoList.add(new Lotto());
+		}
+		System.out.println(this.lottoList.size());
+	}
+
+	/**
+	 * 로또 정보 수정 
+	 * 
+	 * @param index
+	 * @param lotto
+	 */
+	public void updateLottoList(int index, Lotto lotto) {
+		this.lottoList.add(index, lotto);
 	}
 	
-	public void setBuyNum(int buyNum) {
-		this.buyNum = buyNum;
-	}
+	/**
+	 * 로또 정보 추가
+	 * @ return 로또 추가 후, 최종 index정보 반환
+	 * 
+	 */
+	public int addLottoList() {
+		this.lottoList.add(new Lotto());
 		
+		return lottoList.size()-1;
+	}
+	
+	/**
+	 * 로또 리스트 호출
+	 * 
+	 * @return
+	 */
+	public ArrayList<Lotto> getLottoList() {
+		return this.lottoList;
+	}
 }
 
