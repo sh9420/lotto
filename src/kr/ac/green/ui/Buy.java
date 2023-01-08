@@ -111,7 +111,10 @@ public class Buy extends JDialog {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				int index = dataCenter.addLottoList();
+				arrPanel.add(new LottoPanel(index,Buy.this));
+				pnlCenter.add(arrPanel.get(index));
 				
+				showFrame();
 			}
 		};
 		btnAdd.addActionListener(aListener);
