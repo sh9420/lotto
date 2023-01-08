@@ -35,6 +35,7 @@ public class Buy extends JDialog {
 	private ArrayList<JPanel> arrPanel;
 	private DataCenter dataCenter;
 	
+	
 	public Buy(Start owner) {
 		super(owner,"BUY",true);
         init();
@@ -60,7 +61,7 @@ public class Buy extends JDialog {
 		lblImage = new JLabel(new ImageIcon(newImage));
 		lblImage.setPreferredSize(new Dimension(100,100));
 		
-		lblCount = new JLabel(" 선택 수량   :   " + dataCenter.getLottoList().size()+ " ");
+		lblCount = new JLabel(" 선택 수량   :   " + dataCenter.getLottoList().size()+ "");
 		lblCount.setPreferredSize(new Dimension(200,30));
 		lblCount.setFont(font);
 		btnCheck = new JButton("당첨 확인");
@@ -110,15 +111,30 @@ public class Buy extends JDialog {
 		ActionListener aListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				int index = dataCenter.addLottoList();
-				arrPanel.add(new LottoPanel(index,Buy.this));
-				pnlCenter.add(arrPanel.get(index));
 				
-				showFrame();
+				int index = dataCenter.addLottoList();
+				if(index < 10) {
+					arrPanel.add(new LottoPanel(index,Buy.this));
+					pnlCenter.add(arrPanel.get(index));
+					lblCount.setText(" 선택 수량   :   " + (index+1) + "");
+					showFrame();
+				}
 			}
 		};
 		btnAdd.addActionListener(aListener);
 	}
+	
+	/**
+	 * 로또 삭제 메서드
+	 */
+	public void removePanel() {
+		pnlCenter.removeAll();
+		buy();
+		showFrame();
+		lblCount.setText(" 선택 수량   :   " + dataCenter.getLottoList().size() + "");
+	}
+	
+	
     public void showFrame() {
         pack();
         setLocationRelativeTo(null);

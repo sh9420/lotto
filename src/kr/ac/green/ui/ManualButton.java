@@ -55,12 +55,31 @@ public class ManualButton extends JDialog {
     	this.dataCenter = DataCenter.getInstance();
     	lotto = dataCenter.getLottoList().get(index);
         buttons = new JToggleButton[45];
-
+        selectNum = new ArrayList<Integer>();
+        lbl1 = new JLabel("-");
+        
+        
         for (int i = 0; i < buttons.length; i++) {
             buttons[i] = new JToggleButton(String.valueOf(i + 1));
             buttons[i].setBackground(Color.WHITE);
         }
-
+        
+        if(!lotto.getState().equals("미구매")) {
+        	for(int i = 0 ; i < lotto.getLottoNumber().length ; i++) {
+        		selectNum.add(lotto.getLottoNumber()[i]);
+        		buttons[selectNum.get(i)-1].setBackground(Color.LIGHT_GRAY);
+        		buttons[selectNum.get(i)-1].setSelected(true);
+        	}
+			for (JToggleButton toggleButton : buttons) {
+				toggleButton.setEnabled(false);
+				if (toggleButton.isSelected()) {
+					toggleButton.setEnabled(true);
+				}
+			}
+        	
+        	lbl1.setText(selectNum.toString());
+        }
+        
         btnDelete = new JButton("초기화");
         btnDelete.setBackground(Color.WHITE);
 
@@ -68,11 +87,10 @@ public class ManualButton extends JDialog {
         btnOK.setBackground(Color.WHITE);
 
 
-        lbl1 = new JLabel("-");
+        
         
         new TitledBorder(new LineBorder(Color.BLACK, 4));
 
-        selectNum = new ArrayList<Integer>();
         
        
         
@@ -117,6 +135,7 @@ public class ManualButton extends JDialog {
 						selectNum.add(selNum);
 			            buttons[selNum-1].setBackground(Color.LIGHT_GRAY);
 						lbl1.setText(selectNum.toString());
+						
 					}
 				}
 				
@@ -131,7 +150,8 @@ public class ManualButton extends JDialog {
 
 				if (!button.isSelected()) {
 					int selNum = Integer.valueOf(button.getText());
-					selectNum.remove(selNum);
+
+					selectNum.remove(Integer.valueOf(button.getText()));
 
 		            buttons[selNum-1].setBackground(Color.WHITE);
 					if (selectNum.size() < 6) {
@@ -180,6 +200,7 @@ public class ManualButton extends JDialog {
                     for (JToggleButton toggleButton : buttons) {
                         toggleButton.setSelected(false);
                         toggleButton.setEnabled(true);
+                        toggleButton.setBackground(Color.WHITE);
                     }
                 }
             }

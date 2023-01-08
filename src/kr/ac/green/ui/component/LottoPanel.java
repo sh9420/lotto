@@ -31,18 +31,16 @@ public class LottoPanel extends JPanel{
 	
 	private MyLotto myNum;
 	
-	private JButton btnMenual;
+	private JButton btnManual;
 	private JButton btnAuto;
 	private JButton btnCancel;
 	
 	private Buy buy;
-	private ManualButton manualButton;
 	private int index;
 	private Lotto lotto;
 	
 	private DataCenter dataCenter;
 	
-	private ArrayList<Integer> lottoNumber = new ArrayList<Integer>();
 	
 	public LottoPanel(int index, Buy buy) {
 		this.dataCenter = DataCenter.getInstance();
@@ -58,7 +56,7 @@ public class LottoPanel extends JPanel{
 		this.lblNumber = new JLabel(index+1+".");
 		this.myNum = new MyLotto(index);
 		this.lblState = new JLabel(lotto.getState(), JLabel.CENTER);
-		this.btnMenual = new JButton("수동");
+		this.btnManual = new JButton("수동");
 		this.btnAuto = new JButton("자동");
 		this.btnCancel = new JButton("삭제");
 	}
@@ -70,13 +68,13 @@ public class LottoPanel extends JPanel{
 		add(lblState);
 		lblState.setPreferredSize(new Dimension(40,20));
 		add(myNum);
-		add(btnMenual);
+		add(btnManual);
 		add(btnAuto);
 		add(btnCancel);
 		
+		btnManual.setPreferredSize(new Dimension(60, 30));
 		btnAuto.setPreferredSize(new Dimension(60, 30));
 		btnCancel.setPreferredSize(new Dimension(60, 30));
-		// pnlAll.add(pnlOne);
 	}
 	
 	public void addListener() {
@@ -84,16 +82,8 @@ public class LottoPanel extends JPanel{
 		ActionListener aListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(btnMenual == e.getSource()) {
-					if(dataCenter.getLottoList().get(index).getLottoNumber()[0] == 0) {
-						new ManualButton(index, buy);
-					}else {
-						for(int i = 0; i < 6 ; i++) {
-							int num = dataCenter.getLottoList().get(index).getLottoNumber()[i];
-							lottoNumber.add(num);
-						}
-						//manualButton.setSelectNum(lottoNumber);
-					}
+				if(btnManual == e.getSource()) {
+					new ManualButton(index, buy);
 				}
 				else if(btnAuto == e.getSource()) {
 					Random r = new Random();
@@ -112,14 +102,17 @@ public class LottoPanel extends JPanel{
 					lotto.setLottoNumber(rNum);
 					lotto.setState("자동");
 					dataCenter.updateLottoList(index, lotto);
-                    buy.init();
-                	buy.setDisplay();
-                    buy.showFrame();
+					buy.removePanel();
+				}
+				else if(btnCancel == e.getSource()) {
+					dataCenter.getLottoList().remove(index);
+					buy.removePanel();
+					
 				}
 			}
 		};
 		
-		btnMenual.addActionListener(aListener);
+		btnManual.addActionListener(aListener);
 		btnAuto.addActionListener(aListener);
 		btnCancel.addActionListener(aListener);
 	}
