@@ -12,6 +12,7 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.border.EmptyBorder;
@@ -142,21 +143,24 @@ public class ManualButton extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(btnOK == e.getSource()) {
-                	System.out.println("");
-                	Collections.sort(selectNum);
-                	int[] array = new int[selectNum.size()];
-                	int size=0;
-                	for(int temp : selectNum){
-                	  array[size++] = temp;
+                	if(selectNum.size() != 6) {
+                		JOptionPane.showMessageDialog(ManualButton.this, "6개의 숫자를 선택해주세요");
+                	} else {                		
+                		Collections.sort(selectNum);
+                		int[] array = new int[selectNum.size()];
+                		int size=0;
+                		for(int temp : selectNum){
+                			array[size++] = temp;
+                		}
+                		lotto.setLottoNumber(array);
+                		lotto.setState("수동");
+                		dataCenter.updateLottoList(index, lotto);
+                		
+                		buy.init();
+                		buy.setDisplay();
+                		buy.showFrame();
+                		dispose();
                 	}
-                    lotto.setLottoNumber(array);
-                    lotto.setState("수동");
-                	dataCenter.updateLottoList(index, lotto);
-                
-                    buy.init();
-                	buy.setDisplay();
-                    buy.showFrame();
-                	dispose();
                 }
             }
         });
