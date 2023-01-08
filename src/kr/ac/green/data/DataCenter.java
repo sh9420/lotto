@@ -62,13 +62,11 @@ public class DataCenter {
 	
 	/**
 	 * 로또 정보 추가
-	 * @ return 로또 추가 후, 최종 index정보 반환
+	 * @ 로또 추가
 	 * 
 	 */
-	public int addLottoList() {
+	public void addLottoList() {
 		this.lottoList.add(new Lotto());
-		
-		return lottoList.size()-1;
 	}
 
 	/**

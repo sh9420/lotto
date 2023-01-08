@@ -11,16 +11,24 @@ import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import kr.ac.green.data.DataCenter;
+import kr.ac.green.model.Lotto;
 import kr.ac.green.ui.component.LottoPanel;
 
+/**
+ * @author qortm
+ *
+ */
 public class Buy extends JDialog {
 	
 	private JLabel lblImage;
@@ -76,7 +84,10 @@ public class Buy extends JDialog {
 		pnlNorth.add(lblCount);
 		pnlNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
-		buy();
+		for(int i = 0 ; i < dataCenter.getLottoList().size() ; i++) {
+			// 로또 한줄에 대한 Panel
+			pnlCenter.add(new LottoPanel(i,this));
+		}
 		
 		pnlSouth.add(btnCheck);
 		pnlSouth.add(btnAdd);
@@ -92,29 +103,46 @@ public class Buy extends JDialog {
 		add(pnlSouth, BorderLayout.SOUTH);
 		
 	}
-	
-	public void buy() {
-		for(int i = 0 ; i < dataCenter.getLottoList().size() ; i++) {
-			// 로또 한줄에 대한 Panel
-			pnlCenter.add(new LottoPanel(i,this));
-		}
-	}
 
 	public void addListener() {
 		ActionListener aListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				
-				int index = dataCenter.addLottoList();
-				if(index < 10) {
-					pnlCenter.add(new LottoPanel(index,Buy.this));
-					lblCount.setText(" 선택 수량   :   " + (index+1) + "");
-					pack();
-			        setVisible(true);
+				if(btnAdd == e.getSource()) {
+					int size = dataCenter.getLottoList().size();
+					if(size < 10) {
+						dataCenter.addLottoList();
+						updatePanel();
+					}else {
+						JOptionPane.showMessageDialog(Buy.this, "10개 이상 구매 불가능 합니다.");
+					}
+				}else if(btnCheck == e.getSource()) {
+					try{
+
+						int next = JOptionPane.showConfirmDialog(
+							null,
+							"선택하지 않은 번호는 자동으로 입력 됩니다.",
+							"구매",
+							JOptionPane.YES_NO_OPTION,
+							JOptionPane.WARNING_MESSAGE
+						);
+						
+						if(next == JOptionPane.YES_OPTION) {
+							
+							for(int index = 0 ; index < dataCenter.getLottoList().size(); index++) {
+								if(dataCenter.getLottoList().get(index).getState().equals("미구매")) {
+									autoBuy(index);
+								}
+							}
+						}
+					}catch(NumberFormatException ae) {
+						
+					}
 				}
 			}
 		};
 		btnAdd.addActionListener(aListener);
+		btnCheck.addActionListener(aListener);
 	}
 	
 	
@@ -131,6 +159,29 @@ public class Buy extends JDialog {
 		setDisplay();
 		pack();
         setVisible(true);
+	}
+	
+	/**
+	 * 로또 자동 구매 메서드
+	 * @param index
+	 */
+	public void autoBuy(int index) {
+		Random r = new Random();
+		Lotto lotto = dataCenter.getLottoList().get(index);
+		int[] rNum = new int[6];
+		for(int i = 0 ; i < 6 ; i++) {
+			rNum[i] = r.nextInt(45)+1;
+			for(int j = 0 ; j < i ; j++) {
+				if(rNum[i] == rNum[j]) {
+					i--;
+				}
+			}
+		}
+		Arrays.sort(rNum);
+		lotto.setLottoNumber(rNum);
+		lotto.setState("자동");
+		dataCenter.updateLottoList(index, lotto);
+		updatePanel();
 	}
 	
     public void showFrame() {

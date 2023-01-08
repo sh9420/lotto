@@ -4,9 +4,6 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -23,8 +20,6 @@ import kr.ac.green.ui.ManualButton;
  * 로또 한줄에 대한 패널 정보 
  */
 public class LottoPanel extends JPanel{
-	
-	private JPanel pnlAll;
 	
 	private JLabel lblNumber;
 	private JLabel lblState;
@@ -59,6 +54,8 @@ public class LottoPanel extends JPanel{
 		this.btnManual = new JButton("수동");
 		this.btnAuto = new JButton("자동");
 		this.btnCancel = new JButton("삭제");
+		
+		lblNumber.setPreferredSize(new Dimension(20,10));
 	}
 	
 	public void setDisplay() {
@@ -86,23 +83,7 @@ public class LottoPanel extends JPanel{
 					new ManualButton(index, buy);
 				}
 				else if(btnAuto == e.getSource()) {
-					Random r = new Random();
-					Lotto lotto = dataCenter.getLottoList().get(index);
-					int[] rNum = new int[6];
-					for(int i = 0 ; i < 6 ; i++) {
-						rNum[i] = r.nextInt(45)+1;
-						for(int j = 0 ; j < i ; j++) {
-							if(rNum[i] == rNum[j]) {
-								i--;
-							}
-						}
-					}
-					
-					Arrays.sort(rNum);
-					lotto.setLottoNumber(rNum);
-					lotto.setState("자동");
-					dataCenter.updateLottoList(index, lotto);
-					buy.updatePanel();
+					buy.autoBuy(index);
 				}
 				else if(btnCancel == e.getSource()) {
 					dataCenter.getLottoList().remove(index);
