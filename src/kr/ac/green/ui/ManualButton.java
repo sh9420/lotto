@@ -111,8 +111,11 @@ public class ManualButton extends JDialog {
 			public void actionPerformed(ActionEvent e) {
 				JToggleButton button = (JToggleButton) e.getSource();
 				if (button.isSelected()) {
-					if (!selectNum.contains(button.getText())) {
-						selectNum.add(Integer.parseInt(button.getText()));
+					int selNum = Integer.parseInt(button.getText());
+					
+					if (!selectNum.contains(selNum)) {
+						selectNum.add(selNum);
+			            buttons[selNum-1].setBackground(Color.LIGHT_GRAY);
 						lbl1.setText(selectNum.toString());
 					}
 				}
@@ -127,8 +130,10 @@ public class ManualButton extends JDialog {
 				}
 
 				if (!button.isSelected()) {
-					selectNum.remove(Integer.valueOf(button.getText()));
-				
+					int selNum = Integer.valueOf(button.getText());
+					selectNum.remove(selNum);
+
+		            buttons[selNum-1].setBackground(Color.WHITE);
 					if (selectNum.size() < 6) {
 						for (JToggleButton toggleButton : buttons) {
 							toggleButton.setEnabled(true);

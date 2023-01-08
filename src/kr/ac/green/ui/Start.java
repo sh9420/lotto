@@ -16,6 +16,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 import javax.swing.border.EmptyBorder;
 
 import kr.ac.green.data.DataCenter;
@@ -29,6 +30,13 @@ public class Start extends JFrame {
 	
 	
 	public Start(){
+		try {
+			UIManager.setLookAndFeel("javax.swing.plaf.nimbus.NimbusLookAndFeel");
+			JFrame.setDefaultLookAndFeelDecorated(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
         init();
         setDisplay();
         addListener();
