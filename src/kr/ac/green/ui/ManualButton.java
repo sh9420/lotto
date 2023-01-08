@@ -36,6 +36,8 @@ public class ManualButton extends JDialog {
     private DataCenter dataCenter;
     private Lotto lotto;
     
+    
+    
     public ManualButton(int index, Buy buy) {
     	
     	super(new JFrame(), "수동", true);
@@ -148,7 +150,7 @@ public class ManualButton extends JDialog {
                 	  array[size++] = temp;
                 	}
                     lotto.setLottoNumber(array);
-                    
+                    lotto.setState("수동");
                 	dataCenter.updateLottoList(index, lotto);
                 
                     buy.init();
@@ -178,8 +180,14 @@ public class ManualButton extends JDialog {
             button.addActionListener(actionListener);
         }
     }
+	
+	
 
-    private void setFrame() {
+    public void setSelectNum(ArrayList<Integer> selectNum) {
+		this.selectNum = selectNum;
+	}
+
+	private void setFrame() {
         setTitle("숫자 입력");
         pack();
         setLocationRelativeTo(null);

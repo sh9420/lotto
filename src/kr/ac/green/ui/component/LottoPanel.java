@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -35,24 +36,28 @@ public class LottoPanel extends JPanel{
 	private JButton btnCancel;
 	
 	private Buy buy;
+	private ManualButton manualButton;
 	private int index;
+	private Lotto lotto;
 	
 	private DataCenter dataCenter;
+	
+	private ArrayList<Integer> lottoNumber = new ArrayList<Integer>();
 	
 	public LottoPanel(int index, Buy buy) {
 		this.dataCenter = DataCenter.getInstance();
 		this.index = index;
 		this.buy = buy;
-		
 		init();
 		setDisplay();
 		addListener();
 	}
 	
 	public void init() {
-		this.lblNumber = new JLabel(index+1+"");
+		this.lotto = dataCenter.getLottoList().get(index);
+		this.lblNumber = new JLabel(index+1+".");
 		this.myNum = new MyLotto(index);
-		this.lblState = new JLabel();
+		this.lblState = new JLabel(lotto.getState(), JLabel.CENTER);
 		this.btnMenual = new JButton("수동");
 		this.btnAuto = new JButton("자동");
 		this.btnCancel = new JButton("삭제");
@@ -60,10 +65,10 @@ public class LottoPanel extends JPanel{
 	
 	public void setDisplay() {
 		setBackground(Color.WHITE);
-	
+		
 		add(lblNumber);
 		add(lblState);
-		lblState.setPreferredSize(new Dimension(10,10));
+		lblState.setPreferredSize(new Dimension(40,20));
 		add(myNum);
 		add(btnMenual);
 		add(btnAuto);
@@ -80,7 +85,15 @@ public class LottoPanel extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(btnMenual == e.getSource()) {
-					new ManualButton(index, buy);
+					if(dataCenter.getLottoList().get(index).getLottoNumber()[0] == 0) {
+						new ManualButton(index, buy);
+					}else {
+						for(int i = 0; i < 6 ; i++) {
+							int num = dataCenter.getLottoList().get(index).getLottoNumber()[i];
+							lottoNumber.add(num);
+						}
+						//manualButton.setSelectNum(lottoNumber);
+					}
 				}
 				else if(btnAuto == e.getSource()) {
 					Random r = new Random();
@@ -97,7 +110,7 @@ public class LottoPanel extends JPanel{
 					
 					Arrays.sort(rNum);
 					lotto.setLottoNumber(rNum);
-					
+					lotto.setState("자동");
 					dataCenter.updateLottoList(index, lotto);
                     buy.init();
                 	buy.setDisplay();

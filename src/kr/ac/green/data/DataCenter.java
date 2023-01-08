@@ -20,9 +20,6 @@ public class DataCenter {
 	private ArrayList<Lotto> lottoList;
 	
 	
-	
-	//[] [] [] 
-	
 	private DataCenter() {
 		lottoList = new ArrayList<Lotto>();
 	}
@@ -73,7 +70,7 @@ public class DataCenter {
 		
 		return lottoList.size()-1;
 	}
-	
+
 	/**
 	 * 로또 리스트 호출
 	 * 

@@ -17,10 +17,8 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JToggleButton;
 
 import kr.ac.green.data.DataCenter;
-import kr.ac.green.model.Lotto;
 import kr.ac.green.ui.component.LottoPanel;
 
 public class Buy extends JDialog {
@@ -72,14 +70,6 @@ public class Buy extends JDialog {
 		
 	}
 	
-	public JLabel getLabel(String whatProduce) {
-		Toolkit kit = Toolkit.getDefaultToolkit();
-		String fileName = whatProduce +".png";
-		Image img = kit.getImage(fileName);
-		ImageIcon icon = new ImageIcon(img);
-		return new JLabel(icon, JLabel.CENTER);
-	}
-	
 	public void setDisplay() {
 		pnlNorth = new JPanel();
 		JPanel pnlSouth = new JPanel();
@@ -108,29 +98,20 @@ public class Buy extends JDialog {
 	}
 	
 	public void buy() {
-		for(int i=0 ; i < dataCenter.getLottoList().size() ; i++) {
+		for(int i = 0 ; i < dataCenter.getLottoList().size() ; i++) {
 			// 로또 한줄에 대한 Panel
 			
 			arrPanel.add(new LottoPanel(i,this));
 			pnlCenter.add(arrPanel.get(i));
 		}
 	}
-	
-	public void TableAdd() {
-		int plusNum = dataCenter.getLottoList().size();
-		if(plusNum <=10) {
-			int index = plusNum;
-			arrPanel.add(new LottoPanel(index,this));
-			pnlCenter.add(arrPanel.get(index));
-		}
-	}
-	
 
 	public void addListener() {
 		ActionListener aListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				TableAdd();
+				int index = dataCenter.addLottoList();
+				
 			}
 		};
 		btnAdd.addActionListener(aListener);

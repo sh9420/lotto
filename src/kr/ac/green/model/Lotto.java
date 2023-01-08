@@ -3,7 +3,7 @@ package kr.ac.green.model;
 import java.util.Arrays;
 
 public class Lotto {
-	// 로또 상태 (자동/수동)
+	// 로또 상태 (자동/수동/미구매)
 	private String state;
 	
 	// 로또 넘버 
@@ -15,7 +15,7 @@ public class Lotto {
 	 * 
 	 */
 	public Lotto() {
-		this.state = "수동";
+		this.state = "미구매";
 		this.lottoNumber = new int[6];
 	}
 	
