@@ -181,9 +181,7 @@ public class ManualButton extends JDialog {
                 		lotto.setState("¼öµ¿");
                 		dataCenter.updateLottoList(index, lotto);
                 		
-                		buy.init();
-                		buy.setDisplay();
-                		buy.showFrame();
+    					buy.updatePanel();
                 		dispose();
                 	}
                 }

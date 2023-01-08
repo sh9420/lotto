@@ -30,9 +30,8 @@ public class Buy extends JDialog {
 	
 	private JPanel pnlNorth;
 	private JPanel pnlCenter;
+	private JPanel pnlSouth;
 	
-	
-	private ArrayList<JPanel> arrPanel;
 	private DataCenter dataCenter;
 	
 	
@@ -47,8 +46,6 @@ public class Buy extends JDialog {
 	public void init() {
 		this.dataCenter=DataCenter.getInstance();
 		
-		this.arrPanel = new ArrayList<JPanel>();
-		
 		Font font = new Font("맑은 고딕", Font.BOLD, 15); // 글꼴 나중에
     	Toolkit kit = Toolkit.getDefaultToolkit();
 		Image img = kit.getImage("logo.png");
@@ -61,19 +58,18 @@ public class Buy extends JDialog {
 		lblImage = new JLabel(new ImageIcon(newImage));
 		lblImage.setPreferredSize(new Dimension(100,100));
 		
-		lblCount = new JLabel(" 선택 수량   :   " + dataCenter.getLottoList().size()+ "");
+		lblCount = new JLabel(" 선택 수량   :   " + dataCenter.getLottoList().size());
 		lblCount.setPreferredSize(new Dimension(200,30));
 		lblCount.setFont(font);
 		btnCheck = new JButton("당첨 확인");
 		btnCheck.setFont(font);
 		btnAdd = new JButton("추가 구매");
 		btnAdd.setFont(font);
-		
 	}
 	
 	public void setDisplay() {
 		pnlNorth = new JPanel();
-		JPanel pnlSouth = new JPanel();
+		pnlSouth = new JPanel();
 		pnlCenter = new JPanel(new GridLayout(0,1));
 		
 		pnlNorth.add(lblImage);
@@ -81,7 +77,6 @@ public class Buy extends JDialog {
 		pnlNorth.setLayout(new FlowLayout(FlowLayout.LEFT));
 		
 		buy();
-		pack();
 		
 		pnlSouth.add(btnCheck);
 		pnlSouth.add(btnAdd);
@@ -101,9 +96,7 @@ public class Buy extends JDialog {
 	public void buy() {
 		for(int i = 0 ; i < dataCenter.getLottoList().size() ; i++) {
 			// 로또 한줄에 대한 Panel
-			
-			arrPanel.add(new LottoPanel(i,this));
-			pnlCenter.add(arrPanel.get(i));
+			pnlCenter.add(new LottoPanel(i,this));
 		}
 	}
 
@@ -114,26 +107,31 @@ public class Buy extends JDialog {
 				
 				int index = dataCenter.addLottoList();
 				if(index < 10) {
-					arrPanel.add(new LottoPanel(index,Buy.this));
-					pnlCenter.add(arrPanel.get(index));
+					pnlCenter.add(new LottoPanel(index,Buy.this));
 					lblCount.setText(" 선택 수량   :   " + (index+1) + "");
-					showFrame();
+					pack();
+			        setVisible(true);
 				}
 			}
 		};
 		btnAdd.addActionListener(aListener);
 	}
 	
-	/**
-	 * 로또 삭제 메서드
-	 */
-	public void removePanel() {
-		pnlCenter.removeAll();
-		buy();
-		showFrame();
-		lblCount.setText(" 선택 수량   :   " + dataCenter.getLottoList().size() + "");
-	}
 	
+	/**
+	 * 패널 UPDATE (로또 정보가 수정이 되거나, 삭제되는 경우)
+	 */
+	public void updatePanel() {
+		lblCount.setText(" 선택 수량   :   " + dataCenter.getLottoList().size());
+		
+		remove(pnlNorth);
+		remove(pnlCenter);
+		remove(pnlSouth);
+		
+		setDisplay();
+		pack();
+        setVisible(true);
+	}
 	
     public void showFrame() {
         pack();

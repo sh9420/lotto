@@ -102,12 +102,11 @@ public class LottoPanel extends JPanel{
 					lotto.setLottoNumber(rNum);
 					lotto.setState("ÀÚµ¿");
 					dataCenter.updateLottoList(index, lotto);
-					buy.removePanel();
+					buy.updatePanel();
 				}
 				else if(btnCancel == e.getSource()) {
 					dataCenter.getLottoList().remove(index);
-					buy.removePanel();
-					
+					buy.updatePanel();
 				}
 			}
 		};
