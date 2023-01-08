@@ -8,6 +8,8 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
@@ -15,8 +17,10 @@ import javax.swing.JButton;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JToggleButton;
 
 import kr.ac.green.data.DataCenter;
+import kr.ac.green.model.Lotto;
 import kr.ac.green.ui.component.LottoPanel;
 
 public class Buy extends JDialog {
@@ -104,34 +108,36 @@ public class Buy extends JDialog {
 	}
 	
 	public void buy() {
-		
 		for(int i=0 ; i < dataCenter.getLottoList().size() ; i++) {
 			// 로또 한줄에 대한 Panel
-			arrPanel.add(new LottoPanel(i,dataCenter.getLottoList().get(i)));
+			
+			arrPanel.add(new LottoPanel(i,this));
 			pnlCenter.add(arrPanel.get(i));
 		}
-		
 	}
 	
 	public void TableAdd() {
 		int plusNum = dataCenter.getLottoList().size();
-		
 		if(plusNum <=10) {
-			int index= dataCenter.addLottoList();
-			LottoPanel allPanel = new LottoPanel(index,dataCenter.getLottoList().get(index));
-			pnlCenter.add(allPanel, BorderLayout.SOUTH);
+			int index = plusNum;
+			arrPanel.add(new LottoPanel(index,this));
+			pnlCenter.add(arrPanel.get(index));
 		}
 	}
 	
 
 	public void addListener() {
-		
+		ActionListener aListener = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				TableAdd();
+			}
+		};
+		btnAdd.addActionListener(aListener);
 	}
-	
     public void showFrame() {
         pack();
         setLocationRelativeTo(null);
         setVisible(true);
     }
-   
 }

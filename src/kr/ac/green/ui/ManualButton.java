@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -17,6 +18,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import kr.ac.green.data.DataCenter;
+import kr.ac.green.model.Lotto;
+
 public class ManualButton extends JDialog {
 	
     private ArrayList<Integer> selectNum;
@@ -25,17 +29,28 @@ public class ManualButton extends JDialog {
     private JButton btnDelete;
     private JButton btnOK;
 
-    public ManualButton(int index) {
+    private int index;
+    
+    private Buy buy;
+    
+    private DataCenter dataCenter;
+    private Lotto lotto;
+    
+    public ManualButton(int index, Buy buy) {
     	
     	super(new JFrame(), "¼öµ¿", true);
-    	
+    	this.index = index;
+    	this.buy = buy;
         init();
         setDisplay();
         setListener();
         setFrame();
+        
     }
 
     private void init() {
+    	this.dataCenter = DataCenter.getInstance();
+    	lotto = dataCenter.getLottoList().get(index);
         buttons = new JToggleButton[45];
 
         for (int i = 0; i < buttons.length; i++) {
@@ -55,7 +70,9 @@ public class ManualButton extends JDialog {
         new TitledBorder(new LineBorder(Color.BLACK, 4));
 
         selectNum = new ArrayList<Integer>();
-
+        
+       
+        
     }
     private void setDisplay() {
         JPanel pnlMain = new JPanel(new BorderLayout());
@@ -107,13 +124,14 @@ public class ManualButton extends JDialog {
 				}
 
 				if (!button.isSelected()) {
-					int index = selectNum.indexOf(Integer.parseInt(button.getText()));
+					selectNum.remove(Integer.valueOf(button.getText()));
+				
 					if (selectNum.size() < 6) {
 						for (JToggleButton toggleButton : buttons) {
 							toggleButton.setEnabled(true);
 						}
 					}
-					selectNum.remove(Integer.valueOf(button.getText()));
+					
 					lbl1.setText(selectNum.toString());
 				}
 			}
@@ -122,6 +140,20 @@ public class ManualButton extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(btnOK == e.getSource()) {
+                	System.out.println("");
+                	Collections.sort(selectNum);
+                	int[] array = new int[selectNum.size()];
+                	int size=0;
+                	for(int temp : selectNum){
+                	  array[size++] = temp;
+                	}
+                    lotto.setLottoNumber(array);
+                    
+                	dataCenter.updateLottoList(index, lotto);
+                
+                    buy.init();
+                	buy.setDisplay();
+                    buy.showFrame();
                 	dispose();
                 }
             }
@@ -131,7 +163,9 @@ public class ManualButton extends JDialog {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if(btnDelete == e.getSource()) {
-                    selectNum = new ArrayList<>();
+                	selectNum = new ArrayList<>();
+                	lbl1.setText(selectNum.toString());
+                    
                     for (JToggleButton toggleButton : buttons) {
                         toggleButton.setSelected(false);
                         toggleButton.setEnabled(true);

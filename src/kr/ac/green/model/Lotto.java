@@ -1,11 +1,14 @@
 package kr.ac.green.model;
 
+import java.util.Arrays;
+
 public class Lotto {
 	// 로또 상태 (자동/수동)
 	private String state;
 	
 	// 로또 넘버 
 	private int[] lottoNumber;
+	
 	
 	/**
 	 * 최초 생성 시, Default '수동' 및 6개의 로또번호 배열 생성
@@ -16,6 +19,7 @@ public class Lotto {
 		this.lottoNumber = new int[6];
 	}
 	
+
 	public String getState() {
 		return state;
 	}
@@ -27,14 +31,14 @@ public class Lotto {
 		return lottoNumber;
 	}
 	
-	/**
-	 * 지정된 index 넘버에 로또번호 기재
-	 * 
-	 * @param idx
-	 */
-	public void setLottoNumber(int index, int lottoNumber) {			
-		this.lottoNumber[index] = lottoNumber;
+	
+	
+	public void setLottoNumber(int[] lottoNumber) {
+		this.lottoNumber = lottoNumber;
 	}
 	
-	
+	@Override
+	public String toString() {
+		return "Lotto [state=" + state + ", lottoNumber=" + Arrays.toString(lottoNumber) + "]";
+	}
 }
