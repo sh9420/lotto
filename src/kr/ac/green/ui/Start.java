@@ -55,8 +55,6 @@ public class Start extends JFrame {
         btnBuy.setPreferredSize(new Dimension(60,30));
         lblLogo = new JLabel(new ImageIcon(img));
         lblLogo.setPreferredSize(new Dimension(450,450));
-      
-        
     }
 
     public void setDisplay(){

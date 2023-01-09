@@ -2,11 +2,15 @@ package kr.ac.green.ui.component;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import kr.ac.green.data.DataCenter;
@@ -32,6 +36,7 @@ public class LottoPanel extends JPanel{
 	
 	private Buy buy;
 	private int index;
+
 	private Lotto lotto;
 	
 	private DataCenter dataCenter;
@@ -41,12 +46,15 @@ public class LottoPanel extends JPanel{
 		this.dataCenter = DataCenter.getInstance();
 		this.index = index;
 		this.buy = buy;
+	
 		init();
 		setDisplay();
 		addListener();
 	}
 	
 	public void init() {
+
+	
 		this.lotto = dataCenter.getLottoList().get(index);
 		this.lblNumber = new JLabel(index+1+".");
 		this.myNum = new MyLotto(index);
@@ -86,8 +94,13 @@ public class LottoPanel extends JPanel{
 					buy.autoBuy(index);
 				}
 				else if(btnCancel == e.getSource()) {
-					dataCenter.getLottoList().remove(index);
-					buy.updatePanel();
+					if(dataCenter.getLottoList().size() != 1) {
+						dataCenter.getLottoList().remove(index);
+						buy.updatePanel();
+					}
+					else {
+						JOptionPane.showMessageDialog(LottoPanel.this, "1개 미만으로는 삭제가 불가능 합니다.");
+					}
 				}
 			}
 		};

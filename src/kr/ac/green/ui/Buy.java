@@ -26,7 +26,7 @@ import kr.ac.green.model.Lotto;
 import kr.ac.green.ui.component.LottoPanel;
 
 /**
- * @author qortm
+ * @author 
  *
  */
 public class Buy extends JDialog {
@@ -41,7 +41,7 @@ public class Buy extends JDialog {
 	private JPanel pnlSouth;
 	
 	private DataCenter dataCenter;
-	
+
 	
 	public Buy(Start owner) {
 		super(owner,"BUY",true);
@@ -53,13 +53,9 @@ public class Buy extends JDialog {
 	
 	public void init() {
 		this.dataCenter=DataCenter.getInstance();
-		
 		Font font = new Font("맑은 고딕", Font.BOLD, 15); // 글꼴 나중에
     	Toolkit kit = Toolkit.getDefaultToolkit();
 		Image img = kit.getImage("logo.png");
-		Image back = kit.getImage("Back.png");
-		ImageIcon icon = new ImageIcon(img);
-		ImageIcon iconback = new ImageIcon(back);
 		Image newImage = img.getScaledInstance(100,100,Image.SCALE_SMOOTH);
 		
 		
@@ -118,7 +114,6 @@ public class Buy extends JDialog {
 					}
 				}else if(btnCheck == e.getSource()) {
 					try{
-
 						int next = JOptionPane.showConfirmDialog(
 							null,
 							"선택하지 않은 번호는 자동으로 입력 됩니다.",
@@ -139,6 +134,9 @@ public class Buy extends JDialog {
 						
 					}
 				}
+				if(btnCheck == e.getSource()) {
+					new Confirm();
+				}
 			}
 		};
 		btnAdd.addActionListener(aListener);
@@ -151,7 +149,7 @@ public class Buy extends JDialog {
 	 */
 	public void updatePanel() {
 		lblCount.setText(" 선택 수량   :   " + dataCenter.getLottoList().size());
-		
+
 		remove(pnlNorth);
 		remove(pnlCenter);
 		remove(pnlSouth);

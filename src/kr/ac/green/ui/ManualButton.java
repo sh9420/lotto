@@ -7,6 +7,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Random;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -37,6 +38,10 @@ public class ManualButton extends JDialog {
     private DataCenter dataCenter;
     private Lotto lotto;
     
+    private int state = 0;
+    public final static int MANUAL = 0;
+    public final static int AUTO = 1;
+    public final static int HALF = 2;
     
     
     public ManualButton(int index, Buy buy) {
@@ -56,7 +61,7 @@ public class ManualButton extends JDialog {
     	lotto = dataCenter.getLottoList().get(index);
         buttons = new JToggleButton[45];
         selectNum = new ArrayList<Integer>();
-        lbl1 = new JLabel("-");
+        lbl1 = new JLabel("[6개의 번호를 선택하세요]");
         
         
         for (int i = 0; i < buttons.length; i++) {
@@ -139,7 +144,7 @@ public class ManualButton extends JDialog {
 					}
 				}
 				
-				if (selectNum.size() >= 6) {
+				if (selectNum.size() == 6) {
 					for (JToggleButton toggleButton : buttons) {
 						toggleButton.setEnabled(false);
 						if (toggleButton.isSelected()) {
@@ -167,9 +172,53 @@ public class ManualButton extends JDialog {
         btnOK.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(btnOK == e.getSource()) {
+            	
+            	if(btnOK == e.getSource()) {
+                	
+                	Random r = new Random();
                 	if(selectNum.size() != 6) {
-                		JOptionPane.showMessageDialog(ManualButton.this, "6개의 숫자를 선택해주세요");
+    					try{
+    						int next = JOptionPane.showConfirmDialog(
+    							null,
+    							"선택하지 않은 번호는 자동으로 입력 됩니다.",
+    							"구매",
+    							JOptionPane.YES_NO_OPTION,
+    							JOptionPane.WARNING_MESSAGE
+    						);
+    						
+    						if(next == JOptionPane.YES_OPTION) {
+    							if(selectNum.size() == 0) {
+    								state = AUTO;
+    							}
+    							else {
+    								state = HALF;
+    							}
+    							for(int i = selectNum.size() ; i < 6 ; i++) {
+    	                			selectNum.add(r.nextInt(45)+1);
+    	                			for(int j = selectNum.size() ; j < i ; j++) {
+    	                				if(selectNum.get(i) == selectNum.get(j)) {
+    	                					i--;
+    	                				}
+    	                			}
+    	                			buttons[selectNum.get(i)-1].setBackground(Color.LIGHT_GRAY);
+    	                    		buttons[selectNum.get(i)-1].setSelected(true);
+    	                    		
+    	                		}
+    							lbl1.setText(selectNum.toString());
+    							if (selectNum.size() == 6) {
+    								for (JToggleButton toggleButton : buttons) {
+    									toggleButton.setEnabled(false);
+    									if (toggleButton.isSelected()) {
+    										toggleButton.setEnabled(true);
+    									}
+    								}
+    							}
+    						}
+    					}catch(NumberFormatException ae) {
+    						
+    					}
+
+                		//JOptionPane.showMessageDialog(ManualButton.this, "6개의 숫자를 선택해주세요");
                 	} else {                		
                 		Collections.sort(selectNum);
                 		int[] array = new int[selectNum.size()];
@@ -178,10 +227,17 @@ public class ManualButton extends JDialog {
                 			array[size++] = temp;
                 		}
                 		lotto.setLottoNumber(array);
-                		lotto.setState("수동");
+                		if(state == MANUAL) {
+                			lotto.setState("수동");
+                		}else if (state == HALF) {
+                			lotto.setState("반자동");
+                		}else {
+                			lotto.setState("자동");
+                		}
                 		dataCenter.updateLottoList(index, lotto);
                 		
     					buy.updatePanel();
+    					
                 		dispose();
                 	}
                 }
