@@ -42,7 +42,7 @@ public class ResultForm extends JFrame {
 	
 	private String rank;
 
-	private JButton btnTracking;	//추적 버튼
+	private JButton btnTracing;	//추적 버튼
 	private JButton btnMain;		//메인으로 돌아가는 버튼
 
 	private String imageSet;		//숫자에 따른 이미지 세팅
@@ -66,7 +66,7 @@ public class ResultForm extends JFrame {
 		lblWinNumInfo = getLabel("당첨 번호");
 		lblRankInfo = getLabel("등수");
 	
-		btnTracking = new JButton("추적");
+		btnTracing = new JButton("추적");
 		btnMain = new JButton("메인화면");
 		
 		int[] result = dataCenter.resultAuto();
@@ -165,7 +165,7 @@ public class ResultForm extends JFrame {
 		pnlCenter.add(pnlCCenter, BorderLayout.CENTER);
 		pnlCenter.add(pnlCEast, BorderLayout.EAST);
 
-		pnlSouth.add(btnTracking);	
+		pnlSouth.add(btnTracing);	
 		pnlSouth.add(btnMain);		
 
 		add(pnlNorth, BorderLayout.NORTH);
@@ -227,23 +227,52 @@ public class ResultForm extends JFrame {
 		ActionListener aListener = new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				if(btnTracking == e.getSource()) {
-					int trackingNum = 0;
-					
-					boolean trackingChk = false;
-					while(trackingChk) {
+				if(btnTracing == e.getSource()) {
+					int tracingNum = 0;
+					boolean tracingChk = false;
+					int index = 0;
+					int rank = 1;
+					while(!tracingChk) {
+						int count = 0;
+						int bonusCount = 0;
 						int[] result = dataCenter.resultAuto();
+						tracingNum++;
 						
-						trackingNum++;
-						for(Lotto lotto :dataCenter.getLottoList()) {
+						for(int idx = 0 ; idx < dataCenter.getLottoList().size() ; idx++) {
+							Lotto lotto = dataCenter.getLottoList().get(idx);
 							int[] lottoNum = lotto.getLottoNumber();
-							// 이 로또 넘버 6개로 비교해서, 5개 이상 6개 이상 뭐 해서 ㅂ맞으면
+							
+							for(int i = 0 ; i < 6 ; i++) {
+								for(int j = 0 ; j < i ; j++) {
+									if(result[i] == lottoNum[j]) {
+										count++;
+									}
+								}
+								
+							}
+							if(count == 5) {
+								for(int k = 0 ; k < 6 ; k++) {
+									if(result[6] == lottoNum[k]) {
+										bonusCount++;
+									}
+								}
+							}
+							if((count == 5 && bonusCount == 1) || count == 6) {
+								if((count == 5 && bonusCount == 1)) {
+									rank = 2;
+								}
+								tracingChk = true;
+								index = idx;
+							}
+							count = 0;
+							bonusCount = 0;
+							// 이 로또 넘버 6개로 비교해서, 5개 이상 6개 이상 뭐 해서 맞으면
 							//if(2등 이상인 경우) {
 								//trackingChk = true;
 							//}
 						}
 					}
-					//JOptionPane.showConfirmDialog(trackingNum + "번째 당첨");
+					JOptionPane.showMessageDialog(ResultForm.this, index+ "번째 구매번호가 " + tracingNum+ "번째에 " + rank + "등 당첨" );
 					
 				}
 				else if(btnMain == e.getSource()) {
@@ -266,7 +295,7 @@ public class ResultForm extends JFrame {
 				}
 			}
 		};
-		btnTracking.addActionListener(aListener);
+		btnTracing.addActionListener(aListener);
 		btnMain.addActionListener(aListener);
 	}
 	
