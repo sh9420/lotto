@@ -25,7 +25,6 @@ public class MainForm extends JFrame {
     private JComboBox cbChoice;
     private JButton btnBuy;
     private JLabel logo;
-    private BuyForm buy;
 
     private String[] num = {"구매하실 수량을 선택하세요.", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10"};
 
@@ -102,7 +101,7 @@ public class MainForm extends JFrame {
                     if(next == JOptionPane.YES_OPTION) {
                         DataCenter.getInstance().setBuyLotto(selectCnt);
                         MainForm.this.setVisible(false);
-                        buy = new BuyForm(MainForm.this);
+                        new BuyForm(MainForm.this);
 
                     }
                 }catch(NumberFormatException ae) {

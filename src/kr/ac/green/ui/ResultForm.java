@@ -46,7 +46,6 @@ public class ResultForm extends JFrame {
 
 	private String imageSet;		//숫자에 따른 이미지 세팅
 	
-	private Dimension sizeOf;
 	private DataCenter dataCenter;
 
 	public ResultForm() {
@@ -57,7 +56,6 @@ public class ResultForm extends JFrame {
 	}
 
 	public void init() {
-		sizeOf = new Dimension(300, 30);
 		this.dataCenter=DataCenter.getInstance();
 		// pnlNorth.add
 		lblWinText = new JLabel("추첨 번호");
@@ -85,6 +83,7 @@ public class ResultForm extends JFrame {
 			myLottoList = new ArrayList<Integer>();
 		}
 		
+		
 		for(int i = 0; i < lblWinNum.length; i++) {
 			if(result[i] == 0) {
 				imageSet = "f";
@@ -108,8 +107,6 @@ public class ResultForm extends JFrame {
 			lblWinNum[i].setForeground(Color.WHITE);
 		}
 		plusLogo = new JLabel(new ImageIcon(Toolkit.getDefaultToolkit().getImage("plus.png")));
-	
-		dataCenter.getLottoList().get(0);
 	}
 	
 	
@@ -208,7 +205,6 @@ public class ResultForm extends JFrame {
 		}else if(winNumList.get(index).size() == 3) {
 			rank = "5등 당첨";
 		}
-		System.out.println(winNumList.get(index).size());
 		return rank;
 	}
 	
