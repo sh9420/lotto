@@ -5,7 +5,6 @@ import java.util.Arrays;
 public class Lotto {
 	// 로또 상태 (자동/수동/미구매)
 	private String state;
-
 	// 로또 넘버 
 	private int[] lottoNumber;
 	/**

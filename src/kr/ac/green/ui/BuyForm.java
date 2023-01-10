@@ -22,7 +22,7 @@ import javax.swing.JPanel;
 
 import kr.ac.green.data.DataCenter;
 import kr.ac.green.model.Lotto;
-import kr.ac.green.ui.component.LottoPanel;
+import kr.ac.green.ui.component.MyLottoPanel;
 
 /**
  * @author qortm
@@ -86,7 +86,7 @@ public class BuyForm extends JFrame {
 
 		for(int i = 0 ; i < dataCenter.getLottoList().size() ; i++) {
 			// 로또 한줄에 대한 Panel
-			pnlCenter.add(new LottoPanel(i,this));
+			pnlCenter.add(new MyLottoPanel(i,this));
 		}
 
 		pnlSouth.add(btnCheck);

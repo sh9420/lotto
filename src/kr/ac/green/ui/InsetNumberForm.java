@@ -213,14 +213,13 @@ public class InsetNumberForm extends JDialog {
 								}
 								for(int i = selectNum.size() ; i < 6 ; i++) {
 									selectNum.add(r.nextInt(45)+1);
-									for(int j = selectNum.size() ; j < i ; j++) {
-										if(selectNum.get(i) == selectNum.get(j)) {
+									for(int j = 0 ; j < i ; j++) {
+										if(selectNum.get(j) == selectNum.get(i)) {
 											i--;
 										}
 									}
 									buttons[selectNum.get(i)-1].setBackground(Color.LIGHT_GRAY);
 									buttons[selectNum.get(i)-1].setSelected(true);
-
 								}
 								lbl1.setText(selectNum.toString());
 								if (selectNum.size() == 6) {

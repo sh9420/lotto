@@ -20,7 +20,7 @@ import kr.ac.green.ui.InsetNumberForm;
  *
  * 로또 한줄에 대한 패널 정보 
  */
-public class LottoPanel extends JPanel{
+public class MyLottoPanel extends JPanel{
 
 	private JLabel lblNumber;
 	private JLabel lblState;
@@ -32,7 +32,7 @@ public class LottoPanel extends JPanel{
 	private JButton btnCancel;
 
 	private BuyForm buy;
-	private ResultForm confirm;
+
 	private int index;
 
 	private Lotto lotto;
@@ -40,7 +40,7 @@ public class LottoPanel extends JPanel{
 	private DataCenter dataCenter;
 
 
-	public LottoPanel(int index, BuyForm buy) {
+	public MyLottoPanel(int index, BuyForm buy) {
 		this.dataCenter = DataCenter.getInstance();
 		this.index = index;
 		this.buy = buy;
@@ -49,10 +49,9 @@ public class LottoPanel extends JPanel{
 		setDisplay();
 		addListener();
 	}
-	public LottoPanel(int index, ResultForm confirm) {
+	public MyLottoPanel(int index) {
 		this.dataCenter = DataCenter.getInstance();
 		this.index = index;
-		this.confirm = confirm;
 
 		init();
 		setConfirm();
@@ -126,7 +125,7 @@ public class LottoPanel extends JPanel{
 					try{
 						int next = JOptionPane.showConfirmDialog(
 								null,
-								"해당 게임 자체가 삭제됩니다.",
+								"해당 게임이 삭제됩니다.",
 								"삭제",
 								JOptionPane.YES_NO_OPTION,
 								JOptionPane.WARNING_MESSAGE
@@ -138,7 +137,7 @@ public class LottoPanel extends JPanel{
 								buy.updatePanel();
 							}
 							else {
-								JOptionPane.showMessageDialog(LottoPanel.this, "1개 미만으로는 삭제가 불가능 합니다.");
+								JOptionPane.showMessageDialog(MyLottoPanel.this, "1개 미만으로는 삭제가 불가능 합니다.");
 							}
 						}
 					}catch(NumberFormatException ae) {

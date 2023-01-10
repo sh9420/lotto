@@ -22,7 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import kr.ac.green.data.DataCenter;
-import kr.ac.green.ui.component.LottoPanel;
+import kr.ac.green.ui.component.MyLottoPanel;
+import kr.ac.green.ui.component.WinLottoPanel;
 
 
 public class ResultForm extends JFrame {
@@ -38,6 +39,8 @@ public class ResultForm extends JFrame {
 	private ArrayList<ArrayList> winNumList = new ArrayList<ArrayList>();
 	
 	
+	private String rank;
+
 	private JButton btnTracking;	//추적 버튼
 	private JButton btnMain;		//메인으로 돌아가는 버튼
 
@@ -66,7 +69,9 @@ public class ResultForm extends JFrame {
 	
 		btnTracking = new JButton("추적");
 		btnMain = new JButton("메인화면");
+		
 		int[] result = DataCenter.getInstance().resultAuto();
+		
 		for(int temp : result) {
 			resultList.add(temp);
 		}
@@ -75,16 +80,11 @@ public class ResultForm extends JFrame {
 			for(int temp : dataCenter.getLottoList().get(i).getLottoNumber()) {
 				myLottoList.add(temp);
 			}
-			myLottoList.retainAll(resultList);
+			myLottoList.retainAll(resultList.subList(0, 6));
 			winNumList.add(myLottoList);
 			myLottoList = new ArrayList<Integer>();
-			
 		}
 		
-		System.out.println(winNumList.get(0));
-		
-		System.out.println("당첨번호 -->" + resultList + "    구매번호 --> " + myLottoList);
-	
 		for(int i = 0; i < lblWinNum.length; i++) {
 			if(result[i] == 0) {
 				imageSet = "f";
@@ -143,13 +143,21 @@ public class ResultForm extends JFrame {
 		//내가 구매한 목록 띄우기
 		for(int idx=0; idx < dataCenter.getLottoList().size();idx++) {			
 			JPanel lblMyLotto = getPanel();					
-			lblMyLotto.add(new LottoPanel(idx,this));
+			lblMyLotto.add(new MyLottoPanel(idx));
+			lblMyLotto.setPreferredSize(new Dimension(300,50));
+			
 			JPanel lblWinNumber = getPanel();			
-			lblWinNumber.setPreferredSize(sizeOf);
-
+			lblWinNumber.add(new WinLottoPanel(idx, this));
+			lblWinNumber.setPreferredSize(new Dimension(300,50));
+			
 			JPanel lblRank = getPanel();					
-			lblRank.setPreferredSize(new Dimension(200,30));
-
+			lblRank.setPreferredSize(new Dimension(300,50));
+			JPanel lbl1 = getPanel();
+			JPanel lbl2 = getPanel();
+			lbl1.add(new JLabel(rankCheck(rank)));
+			lbl2.add(lbl1);
+			lblRank.add(lbl2);
+			
 			pnlCWest.add(lblMyLotto);
 			pnlCCenter.add(lblWinNumber);
 			pnlCEast.add(lblRank);
@@ -178,6 +186,20 @@ public class ResultForm extends JFrame {
 		return lbl;
 	}
 
+	public String rankCheck(String rank) {
+		rank = "낙첨되셨습니다..";
+		if(winNumList.size() == 6) {
+			rank = "1등 당첨";
+		}else if(winNumList.size() == 5) {
+			rank = "2등 당첨";
+		}else if(winNumList.size() == 4) {
+			rank = "4등 당첨";
+		}else if(winNumList.size() == 5) {
+			rank = "5등 당첨";
+		}
+		return rank;
+	}
+	
 	public void addListener() {
 		addWindowListener(new WindowAdapter() {
 			@Override
@@ -214,4 +236,13 @@ public class ResultForm extends JFrame {
 		setLocationRelativeTo(null);
 		setVisible(true);
 	}
+	
+	public ArrayList<ArrayList> getWinNumList() {
+		return winNumList;
+	}
+
+	public void setWinNumList(ArrayList<ArrayList> winNumList) {
+		this.winNumList = winNumList;
+	}
+	
 }
