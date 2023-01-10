@@ -3,44 +3,43 @@ package kr.ac.green.ui.component;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
-import java.awt.Toolkit;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
 
 import kr.ac.green.data.DataCenter;
 
+
+
 public class MyLotto extends JPanel {
-	
+
 	private JLabel[] lblBalls;
-	
+
 	private int index;
 	private String imageSet;
-	
+
 	private DataCenter dataCenter;
-	
+
 	public MyLotto(int index) {
 		this.index = index;
 
 		init();
 		BuyPanel();
 	}
-	
+
 	public void init() {
 		lblBalls = new JLabel[6];
 		dataCenter = DataCenter.getInstance();
 
 	}
-	
+
 	public void BuyPanel() {
-		
+
 		for(int i=0; i<6; i++) { //번호 들어가는 레이블 6
-			String lottoNumber = dataCenter.getLottoList().get(index).getLottoNumber()[i] == 0 ? "" : dataCenter.getLottoList().get(index).getLottoNumber()[i]+""; 
+			String lottoNumber = dataCenter.getLottoList().get(index).getLottoNumber()[i] == 0 ? "" : dataCenter.getLottoList().get(index).getLottoNumber()[i]+"";
 			int lottoNum = dataCenter.getLottoList().get(index).getLottoNumber()[i] == 0 ? 0 : dataCenter.getLottoList().get(index).getLottoNumber()[i];
-			
+
 			if(lottoNum == 0) {
 				imageSet = "f";
 			}else if(lottoNum < 10) {
@@ -62,9 +61,9 @@ public class MyLotto extends JPanel {
 			lblBalls[i].setPreferredSize(new Dimension(27,27));
 			lblBalls[i].setForeground(Color.WHITE);
 			add(lblBalls[i]);
-			
 
-			
+
+
 			setBackground(Color.WHITE);
 		}
 	}
