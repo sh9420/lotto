@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import kr.ac.green.data.DataCenter;
+import kr.ac.green.model.Lotto;
 import kr.ac.green.ui.component.MyLottoPanel;
 import kr.ac.green.ui.component.WinLottoPanel;
 
@@ -68,7 +69,7 @@ public class ResultForm extends JFrame {
 		btnTracking = new JButton("추적");
 		btnMain = new JButton("메인화면");
 		
-		int[] result = DataCenter.getInstance().resultAuto();
+		int[] result = dataCenter.resultAuto();
 		
 		for(int temp : result) {
 			resultList.add(temp);
@@ -227,7 +228,23 @@ public class ResultForm extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(btnTracking == e.getSource()) {
-
+					int trackingNum = 0;
+					
+					boolean trackingChk = false;
+					while(trackingChk) {
+						int[] result = dataCenter.resultAuto();
+						
+						trackingNum++;
+						for(Lotto lotto :dataCenter.getLottoList()) {
+							int[] lottoNum = lotto.getLottoNumber();
+							// 이 로또 넘버 6개로 비교해서, 5개 이상 6개 이상 뭐 해서 ㅂ맞으면
+							//if(2등 이상인 경우) {
+								//trackingChk = true;
+							//}
+						}
+					}
+					//JOptionPane.showConfirmDialog(trackingNum + "번째 당첨");
+					
 				}
 				else if(btnMain == e.getSource()) {
 					try{
