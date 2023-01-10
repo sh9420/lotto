@@ -182,8 +182,11 @@ public class InsetNumberForm extends JDialog {
 							toggleButton.setEnabled(true);
 						}
 					}
-
+					if(selectNum.size() == 0) {
+						lbl1.setText("[6개의 번호를 선택하세요]");
+					}else {
 					lbl1.setText(selectNum.toString());
+					}
 				}
 			}
 		};

@@ -104,8 +104,6 @@ public class DataCenter {
 			arr[i] = numbers.get(i);
 		}
 		return arr;
-
 	}
-
 }
 

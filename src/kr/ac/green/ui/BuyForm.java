@@ -57,9 +57,6 @@ public class BuyForm extends JFrame {
 		Font font = new Font("맑은 고딕", Font.BOLD, 15); // 글꼴 나중에
 		Toolkit kit = Toolkit.getDefaultToolkit();
 		Image img = kit.getImage("logo.png");
-		Image back = kit.getImage("Back.png");
-		ImageIcon icon = new ImageIcon(img);
-		ImageIcon iconback = new ImageIcon(back);
 		Image newImage = img.getScaledInstance(100,100,Image.SCALE_SMOOTH);
 
 
@@ -118,7 +115,6 @@ public class BuyForm extends JFrame {
 					}
 				}else if(btnCheck == e.getSource()) {
 					try{
-
 						int next = JOptionPane.showConfirmDialog(
 								null,
 								"선택하지 않은 번호는 자동으로 입력 됩니다.",

@@ -13,7 +13,6 @@ import javax.swing.JPanel;
 import kr.ac.green.data.DataCenter;
 import kr.ac.green.model.Lotto;
 import kr.ac.green.ui.BuyForm;
-import kr.ac.green.ui.ResultForm;
 import kr.ac.green.ui.InsetNumberForm;
 
 /**

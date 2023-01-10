@@ -141,20 +141,20 @@ public class ResultForm extends JFrame {
 		pnlCEast.add(lblRankInfo);		
 		
 		//³»°¡ ±¸¸ÅÇÑ ¸ñ·Ï ¶ç¿ì±â
-		for(int idx=0; idx < dataCenter.getLottoList().size();idx++) {			
+		for(int index=0; index < dataCenter.getLottoList().size();index++) {			
 			JPanel lblMyLotto = getPanel();					
-			lblMyLotto.add(new MyLottoPanel(idx));
+			lblMyLotto.add(new MyLottoPanel(index));
 			lblMyLotto.setPreferredSize(new Dimension(300,50));
 			
 			JPanel lblWinNumber = getPanel();			
-			lblWinNumber.add(new WinLottoPanel(idx, this));
+			lblWinNumber.add(new WinLottoPanel(index, this));
 			lblWinNumber.setPreferredSize(new Dimension(300,50));
 			
 			JPanel lblRank = getPanel();					
 			lblRank.setPreferredSize(new Dimension(300,50));
 			JPanel lbl1 = getPanel();
 			JPanel lbl2 = getPanel();
-			lbl1.add(new JLabel(rankCheck(rank)));
+			lbl1.add(new JLabel(rankCheck(rank, index)));
 			lbl2.add(lbl1);
 			lblRank.add(lbl2);
 			
@@ -186,17 +186,29 @@ public class ResultForm extends JFrame {
 		return lbl;
 	}
 
-	public String rankCheck(String rank) {
+	public String rankCheck(String rank, int index) {
 		rank = "³«Ã·µÇ¼Ì½À´Ï´Ù..";
-		if(winNumList.size() == 6) {
+		int count = 0;
+		if(winNumList.get(index).size() == 6) {
 			rank = "1µî ´çÃ·";
-		}else if(winNumList.size() == 5) {
-			rank = "2µî ´çÃ·";
-		}else if(winNumList.size() == 4) {
+		}else if(winNumList.get(index).size() == 5) {
+			for (int i = 0; i < 6; i++) {
+				if (resultList.get(6) == dataCenter.getLottoList().get(index).getLottoNumber()[i]) {
+					count++;
+				}
+			}
+			if(count == 1) {
+				rank = "2µî ´çÃ·";
+			}
+			else {
+				rank = "3µî ´çÃ·";
+			}
+		}else if(winNumList.get(index).size() == 4) {
 			rank = "4µî ´çÃ·";
-		}else if(winNumList.size() == 5) {
+		}else if(winNumList.get(index).size() == 3) {
 			rank = "5µî ´çÃ·";
 		}
+		System.out.println(winNumList.get(index).size());
 		return rank;
 	}
 	
@@ -222,7 +234,22 @@ public class ResultForm extends JFrame {
 
 				}
 				else if(btnMain == e.getSource()) {
+					try{
+						int next = JOptionPane.showConfirmDialog(
+								null,
+								"Ã¹ È­¸éÀ¸·Î µ¹¾Æ°©´Ï´Ù.",
+								"°æ°í",
+								JOptionPane.YES_NO_OPTION,
+								JOptionPane.WARNING_MESSAGE
+						);
+						if(next == JOptionPane.YES_OPTION) {
+							dataCenter.getLottoList().clear();
+							new MainForm();
+							dispose();
+						}
+					}catch(NumberFormatException ae) {
 
+					}
 				}
 			}
 		};
