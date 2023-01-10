@@ -153,12 +153,12 @@ public class InsetNumberForm extends JDialog {
 				JToggleButton button = (JToggleButton) e.getSource();
 				if (button.isSelected()) {
 					int selNum = Integer.parseInt(button.getText());
-
+					
 					if (!selectNum.contains(selNum)) {
 						selectNum.add(selNum);
 						buttons[selNum-1].setBackground(Color.LIGHT_GRAY);
+						Collections.sort(selectNum);
 						lbl1.setText(selectNum.toString());
-
 					}
 				}
 
@@ -183,8 +183,10 @@ public class InsetNumberForm extends JDialog {
 						}
 					}
 					if(selectNum.size() == 0) {
+						Collections.sort(selectNum);
 						lbl1.setText("[6개의 번호를 선택하세요]");
 					}else {
+						Collections.sort(selectNum);
 					lbl1.setText(selectNum.toString());
 					}
 				}
@@ -224,6 +226,7 @@ public class InsetNumberForm extends JDialog {
 									buttons[selectNum.get(i)-1].setBackground(Color.LIGHT_GRAY);
 									buttons[selectNum.get(i)-1].setSelected(true);
 								}
+								Collections.sort(selectNum);
 								lbl1.setText(selectNum.toString());
 								if (selectNum.size() == 6) {
 									for (JToggleButton toggleButton : buttons) {

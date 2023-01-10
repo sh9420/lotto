@@ -35,6 +35,7 @@ public class WinLottoPanel extends JPanel{
 	public void showPanel() {
 		if (resultForm.getWinNumList().get(index).size() != 0) {
 			for (int i = 0; i < resultForm.getWinNumList().get(index).size(); i++) {
+	
 				int winNumber = (int) resultForm.getWinNumList().get(index).get(i);
 
 				if (winNumber < 10) {
