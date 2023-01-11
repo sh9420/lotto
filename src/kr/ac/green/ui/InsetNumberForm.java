@@ -240,8 +240,6 @@ public class InsetNumberForm extends JDialog {
 						}catch(NumberFormatException ae) {
 
 						}
-
-						//JOptionPane.showMessageDialog(ManualButton.this, "6개의 숫자를 선택해주세요");
 					} else {
 						Collections.sort(selectNum);
 						int[] array = new int[selectNum.size()];

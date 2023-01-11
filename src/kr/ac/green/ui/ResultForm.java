@@ -236,19 +236,18 @@ public class ResultForm extends JFrame {
 						int count = 0;
 						int bonusCount = 0;
 						int[] result = dataCenter.resultAuto();
-						tracingNum++;
+						
 						
 						for(int idx = 0 ; idx < dataCenter.getLottoList().size() ; idx++) {
 							Lotto lotto = dataCenter.getLottoList().get(idx);
 							int[] lottoNum = lotto.getLottoNumber();
-							
+						
 							for(int i = 0 ; i < 6 ; i++) {
-								for(int j = 0 ; j < i ; j++) {
+								for(int j = 0 ; j <= i ; j++) {
 									if(result[i] == lottoNum[j]) {
 										count++;
 									}
 								}
-								
 							}
 							if(count == 5) {
 								for(int k = 0 ; k < 6 ; k++) {
@@ -262,18 +261,14 @@ public class ResultForm extends JFrame {
 									rank = 2;
 								}
 								tracingChk = true;
-								index = idx;
+								index = idx+1;
 							}
+							tracingNum++;
 							count = 0;
 							bonusCount = 0;
-							// 이 로또 넘버 6개로 비교해서, 5개 이상 6개 이상 뭐 해서 맞으면
-							//if(2등 이상인 경우) {
-								//trackingChk = true;
-							//}
 						}
 					}
 					JOptionPane.showMessageDialog(ResultForm.this, index+ "번째 구매번호가 " + tracingNum+ "번째에 " + rank + "등 당첨" );
-					
 				}
 				else if(btnMain == e.getSource()) {
 					try{
@@ -303,6 +298,7 @@ public class ResultForm extends JFrame {
 		setTitle("RESULT");
 		pack();
 		setLocationRelativeTo(null);
+		setResizable(false);
 		setVisible(true);
 	}
 	
